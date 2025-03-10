@@ -1,0 +1,93 @@
+#include <stm32f4xx.h>
+
+#define G_LED_PIN 1
+#define R_LED_PIN 3
+#define Y_LED_PIN 2
+#define BUZ_PIN 4
+#define FAN_PIN 5
+#define BUT_PIN 6
+#define LM35_PIN 0
+
+void delay()
+{
+   for(int i =0 ; i < 1000000 ; i++);
+}
+
+int main (void)
+ { 
+   RCC-> AHB1ENR |=(1 << 0);
+	RCC->APB2ENR |=(1 << 8);
+
+	//set pins of output
+	GPIOA->MODER |=(1 << ( 2 * G_LED_PIN));
+	GPIOA->MODER |=(1 << (2 * R_LED_PIN));
+	GPIOA->MODER |=(1 << (2 * Y_LED_PIN));
+	GPIOA->MODER |=(1 << (2 * BUZ_PIN));
+	GPIOA->MODER |=(1 << (2 * FAN_PIN));
+
+	//set pins of input
+	GPIOA->MODER &=~(3 << (2 * BUT_PIN));
+	GPIOA->PUPDR |=(2 << (2 * BUT_PIN));
+
+	// set pins of analog
+	GPIOA->MODER |=(0b11 << (2 * LM35_PIN));
+
+	//enable ADC
+		ADC1->CR2 |=(1 << 0);
+
+		//Resolution
+		ADC1->CR1 |=(0b00 << 24);
+
+		//Choose channel
+		ADC1->SQR3=0;
+
+   while (1)
+   {
+      ADC1->CR2 |=(1<< 30);
+			 //END CONVERSION
+			while (! (ADC1->SR &(1 << 1)));
+
+			// ADC READ
+			int ADC_READ = ADC1->DR;
+
+			float volt = (ADC_READ *3.3 ) / 4095;
+
+			int temp = volt * 1000 / 10;
+
+			if(temp < 25)
+			{
+				GPIOA->ODR |=(1 << G_LED_PIN);
+
+			}
+			else if (temp > 26 && temp < 35)
+			{
+				GPIOA->ODR &=~(1 << G_LED_PIN);
+				
+				GPIOA->ODR |=(1 << Y_LED_PIN);
+				GPIOA->ODR |=(1 << FAN_PIN);
+			}
+			else if(temp > 35 && temp > 45)
+			{
+				GPIOA->ODR &=~(1 << Y_LED_PIN);
+				GPIOA->ODR &=~(1 << FAN_PIN);
+				
+				GPIOA->ODR |=(1 << R_LED_PIN);
+				GPIOA->ODR |=(1 << FAN_PIN);
+			       GPIOA->ODR |=(1 << BUZ_PIN);
+			}
+
+			
+		     if(GPIOA->IDR &(1 << BUT_PIN))
+		      { 
+		      GPIOA->ODR &=~(1 << G_LED_PIN); 
+		      GPIOA->ODR &=~(1 << Y_LED_PIN); 
+		      GPIOA->ODR &=~(1 << FAN_PIN); 
+		      GPIOA->ODR &=~(1 << R_LED_PIN);
+		      GPIOA->ODR &=~(1 << BUZ_PIN); 
+		      while(GPIOA->IDR &(1 << BUT_PIN)); 
+			 delay();
+			 }
+
+   }
+   return 0;
+ }   

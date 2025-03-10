@@ -1,0 +1,70 @@
+Important Announcement: Temperature Monitoring System Submission
+Deadline: Tomorrow, Tuesday before 12:00 AM (Midnight)
+Points: This assignment is worth 25 points – No excuses will be accepted for late submissions.
+Submit on time to receive full credit.
+If you have any questions, ask before the deadline. Good luck! 💪
+
+
+
+🔧 Components Required:
+LM35 Temperature Sensor (for temperature measurement via ADC)
+3 LEDs (Green, Yellow, Red for status indication)
+Buzzer (for critical temperature alerts)
+Fan (controlled through GPIO)
+Button (to switch temperature units and reset the system)
+System Logic & Functionality:
+1️⃣ Temperature Reading:
+Continuously measure temperature using the LM35 sensor (ADC input).
+2️⃣ LED & Fan Control Based on Temperature:
+Below 25°C → Green LED ON, Fan OFF
+26°C – 35°C → Yellow LED ON, Fan ON
+Above 35°C → Red LED ON, Fan ON
+Above 45°C → Red LED + Buzzer ON (Critical Alert)
+3️⃣ Button Functions:
+Short Press: Toggle between Celsius (°C) and Fahrenheit (°F) display.
+Long Press: Reset the entire system
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Dear Students,
+  Since the submission rate for the first case study was below 70%, the answers will not be uploaded. Instead, we will explain the answer during class only. We encourage everyone to submit future assignments on time to receive full support and access to solutions. 
+
+🔔 Second Case Study: Security System Simulation
+  Design a security system that simulates unlocking a door using a specific sequence of button presses.  
+System Overview:
+The system uses 4 buttons to enter a specific unlock sequence. If the correct sequence is entered, the door unlocks (indicated by a green LED). If the sequence is wrong, an alert is triggered using a red LED and a buzzer.
+
+ Requirements:
+Inputs: 4 buttons (each assigned a unique number).  1 reset button (to restart the system).
+Operations: Correct Sequence: If the correct button sequence (e.g., 1 → 3 → 2 → 4) is entered: The green LED turns ON (door unlocked).
+Wrong Sequence: If the entered sequence is incorrect: The red LED blinks. The buzzer sounds to indicate an error.
+Reset System: Pressing the reset button returns the system to its initial state.
+Deadline: Tomorrow, Saturday at 10 PM. 
+Important: If the submission rate for the second case study is still below 70%, we will not upload the answer
